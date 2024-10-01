@@ -43,21 +43,12 @@
   <table>
     <thead>
       <tr>
-        <th>
-          <%= link_to "Title", movies_path(sort: "title", direction: sort_direction("title")), 
-                      class: "highlight #{'sorted-asc' if @sort_column == 'title' && @sort_direction == 'asc'} 
-                             #{'sorted-desc' if @sort_column == 'title' && @sort_direction == 'desc'}" %>
-        </th>
-        <th>
-          <%= link_to "Rating", movies_path(sort: "rating", direction: sort_direction("rating")), 
-                      class: "highlight #{'sorted-asc' if @sort_column == 'rating' && @sort_direction == 'asc'} 
-                             #{'sorted-desc' if @sort_column == 'rating' && @sort_direction == 'desc'}" %>
-        </th>
-        <th>
-          <%= link_to "Release Date", movies_path(sort: "release_date", direction: sort_direction("release_date")), 
-                      class: "highlight #{'sorted-asc' if @sort_column == 'release_date' && @sort_direction == 'asc'} 
-                             #{'sorted-desc' if @sort_column == 'release_date' && @sort_direction == 'desc'}" %>
-        </th>
+        <th class="<%= 'highlight sorted-asc' if @sort_column == 'title' && @sort_direction == 'asc' %>
+                    <%= 'highlight sorted-desc' if @sort_column == 'title' && @sort_direction == 'desc' %>">Title</th>
+        <th class="<%= 'highlight sorted-asc' if @sort_column == 'rating' && @sort_direction == 'asc' %>
+                    <%= 'highlight sorted-desc' if @sort_column == 'rating' && @sort_direction == 'desc' %>">Rating</th>
+        <th class="<%= 'highlight sorted-asc' if @sort_column == 'release_date' && @sort_direction == 'asc' %>
+                    <%= 'highlight sorted-desc' if @sort_column == 'release_date' && @sort_direction == 'desc' %>">Release Date</th>
         <th>Actions</th>
       </tr>
     </thead>
