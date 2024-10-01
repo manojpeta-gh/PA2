@@ -1,35 +1,76 @@
-<p style="color: green"><%= notice %></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movies</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+      cursor: pointer;
+    }
+    .sorted-asc::after {
+      content: " \2191"; /* Unicode arrow for ascending */
+      color: green;
+    }
+    .sorted-desc::after {
+      content: " \2193"; /* Unicode arrow for descending */
+      color: red;
+    }
+    .highlight {
+      background-color: #ffff99; /* Highlight color for sorted column */
+    }
+  </style>
+</head>
+<body>
+  <p style="color: green"><%= notice %></p>
+  <% content_for :title, "Movies" %>
+  <h1>Movies</h1>
 
-<% content_for :title, "Movies" %>
-
-<h1>Movies</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Rating</th>
-      <th>Release Date</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @movies.each do |movie| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= movie.title %></td>
-        <td><%= movie.rating %></td>
-        <td><%= movie.release_date %></td>
-        <td>
-          <%= link_to "Show this movie", movie %>
+        <th class="<%= 'highlight sorted-asc' if @sort_column == 'title' && @sort_direction == 'asc' %>
+                    <%= 'highlight sorted-desc' if @sort_column == 'title' && @sort_direction == 'desc' %>">Title</th>
+        <th class="<%= 'highlight sorted-asc' if @sort_column == 'rating' && @sort_direction == 'asc' %>
+                    <%= 'highlight sorted-desc' if @sort_column == 'rating' && @sort_direction == 'desc' %>">Rating</th>
+        <th class="<%= 'highlight sorted-asc' if @sort_column == 'release_date' && @sort_direction == 'asc' %>
+                    <%= 'highlight sorted-desc' if @sort_column == 'release_date' && @sort_direction == 'desc' %>">Release Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @movies.each do |movie| %>
+        <tr>
+          <td><%= movie.title %></td>
+          <td><%= movie.rating %></td>
+          <td><%= movie.release_date %></td>
+          <td>
+            <%= link_to "Show this movie", movie %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">
+          <%= link_to "New movie", new_movie_path %>
         </td>
       </tr>
-    <% end %>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="4">
-        <%= link_to "New movie", new_movie_path %>
-      </td>
-    </tr>
-  </tfoot>
-</table>
+    </tfoot>
+  </table>
+</body>
+</html>
