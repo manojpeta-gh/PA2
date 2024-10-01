@@ -22,3 +22,5 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+* Link to the app - https://rottennpotatoes-7f2901139a31.herokuapp.com/
