@@ -1,76 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Movies</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid black;
-      padding: 8px;
-      text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-      cursor: pointer;
-    }
-    .sorted-asc::after {
-      content: " \2191"; /* Unicode arrow for ascending */
-      color: green;
-    }
-    .sorted-desc::after {
-      content: " \2193"; /* Unicode arrow for descending */
-      color: red;
-    }
-    .highlight {
-      background-color: #ffff99; /* Highlight color for sorted column */
-    }
-  </style>
-</head>
-<body>
-  <p style="color: green"><%= notice %></p>
-  <% content_for :title, "Movies" %>
-  <h1>Movies</h1>
+<p style="color: green"><%= notice %></p>
 
-  <table>
+<% content_for :title, "Movies" %>
+
+<h1 style="color: darkblue;">Movies</h1>
+
+<div id="movies" style="width: 80%; margin: auto;">
+  <table style="border-collapse: collapse; width: 100%; background-color: #f9f9f9;">
     <thead>
       <tr>
-        <th class="<%= 'highlight sorted-asc' if @sort_column == 'title' && @sort_direction == 'asc' %>
-                    <%= 'highlight sorted-desc' if @sort_column == 'title' && @sort_direction == 'desc' %>">Title</th>
-        <th class="<%= 'highlight sorted-asc' if @sort_column == 'rating' && @sort_direction == 'asc' %>
-                    <%= 'highlight sorted-desc' if @sort_column == 'rating' && @sort_direction == 'desc' %>">Rating</th>
-        <th class="<%= 'highlight sorted-asc' if @sort_column == 'release_date' && @sort_direction == 'asc' %>
-                    <%= 'highlight sorted-desc' if @sort_column == 'release_date' && @sort_direction == 'desc' %>">Release Date</th>
-        <th>Actions</th>
+        <% sort_column = params[:sort] %>
+        <% sort_direction = params[:direction] %>
+        <% columns = {'title' => 'Title', 'rating' => 'Rating', 'release_date' => 'Release Date'} %>
+        <% columns.each do |key, value| %>
+          <th style="border: 1px solid black; padding: 8px; background-color: <%= sort_column == key ? (sort_direction == 'asc' ? 'blue' : 'red') : 'green' %>; color: white;">
+            <%= link_to "#{value} #{sort_column == key ? (sort_direction == 'asc' ? '🔼' : '🔽') : ''}", movies_path(sort: key, direction: sort_column == key && sort_direction == 'asc' ? 'desc' : 'asc') %>
+          </th>
+        <% end %>
+        <th style="border: 1px solid black; padding: 8px; background-color: #4CAF50; color: white;">Actions</th>
       </tr>
     </thead>
     <tbody>
       <% @movies.each do |movie| %>
         <tr>
-          <td><%= movie.title %></td>
-          <td><%= movie.rating %></td>
-          <td><%= movie.release_date %></td>
-          <td>
-            <%= link_to "Show this movie", movie %>
+          <td style="border: 1px solid black; padding: 8px;"><%= movie.title %></td>
+          <td style="border: 1px solid black; padding: 8px;"><%= movie.rating %></td>
+          <td style="border: 1px solid black; padding: 8px;"><%= movie.release_date.strftime("%B %d, %Y") %></td>
+          <td style="border: 1px solid black; padding: 8px;">
+            <%= link_to "Show", movie %> |
+            <%= link_to "Edit", edit_movie_path(movie) %> |
+            <%= link_to "Delete", movie, method: :delete, data: { confirm: "Are you sure?" } %>
           </td>
         </tr>
       <% end %>
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="4">
+        <td colspan="4" style="border: 1px solid black; padding: 8px;">
           <%= link_to "New movie", new_movie_path %>
         </td>
       </tr>
     </tfoot>
   </table>
-</body>
-</html>
+</div>
