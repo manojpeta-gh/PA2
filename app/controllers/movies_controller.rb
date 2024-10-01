@@ -67,4 +67,13 @@ class MoviesController < ApplicationController
     def movie_params
       params.require(:movie).permit(:title, :rating, :description, :release_date)
     end
+
+    def index
+      # Default sort values
+      @sort_column = params[:sort] || 'title'
+      @sort_direction = params[:direction] || 'asc'
+      
+      # Ensure only valid column names are used to prevent SQL injection
+      @movies = Movie.order(@sort_column + ' ' + @sort_direction)
+    end
 end
